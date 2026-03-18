@@ -1,0 +1,4 @@
+Movie_recomonded_System/Datasets/sim_score.pkl
+*.pkl
+.env
+.idea/
