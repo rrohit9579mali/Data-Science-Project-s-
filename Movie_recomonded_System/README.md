@@ -36,3 +36,7 @@ It suggests similar movies based on user-selected titles.
 ## ▶️ Run Locally
 ```bash
 streamlit run app.py
+
+## Demo Link
+``` 
+https://huggingface.co/spaces/Rohit-Mali-2005/movie-recommender-app
