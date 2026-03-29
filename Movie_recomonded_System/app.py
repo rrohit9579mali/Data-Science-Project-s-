@@ -75,6 +75,6 @@ if st.button('🚀 Recommend'):
                 movie = recommended_movies.iloc[idx]
                 poster_url = fetch_poster(movie['id'])
                 with cols[j]:
-                    st.image(poster_url, use_container_width=False)
+                    st.image(poster_url, use_container_width=True)
                     st.markdown(f"**{movie['title']}**")
                     st.caption(f"ID: {movie['id']}")
