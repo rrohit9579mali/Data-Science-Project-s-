@@ -12,23 +12,25 @@ st.markdown("<h1 style='text-align: center; color: #FF4B4B;'>🎬 Movie Recommen
 
 # ---------------- LOAD DATASET ----------------
 # Ensure your CSV is in the Datasets folder on GitHub
-data = pd.read_csv('Datasets/final_df_movie_recommend_system.csv')
-
+# data = pd.read_csv('Datasets/final_df_movie_recommend_system.csv')
+current_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(current_dir, 'Datasets', 'final_df_movie_recommend_system.csv')
+data = pd.read_csv(csv_path)
 # ---------------- FETCH MODEL INTO VARIABLE (NO DISK WRITE) ----------------
 @st.cache_resource
 def load_sim_score(url):
-    try:
-        with st.spinner("Fetching 176MB model data into RAM... 🚀"):
-            response = requests.get(url)
+    local_filename = "temp_sim_score.pkl"
+    if not os.path.exists(local_filename):
+        with st.spinner("Downloading model... 🚀"):
+            response = requests.get(url, stream=True)
             if response.status_code == 200:
-                # BytesIO data ko RAM (Memory) mein rakhta hai, folder mein file nahi banti
-                return pickle.load(io.BytesIO(response.content))
+                with open(local_filename, "wb") as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        f.write(chunk)
             else:
-                st.error(f"Fetch failed! Status Code: {response.status_code}")
+                st.error("Download failed!")
                 return None
-    except Exception as e:
-        st.error(f"Connection Error: {e}")
-        return None
+    return pickle.load(open(local_filename, 'rb'))
 
 # Your Hugging Face Resolve Link
 HF_URL ="https://huggingface.co/datasets/Rohit-Mali-2005/movies_data/resolve/main/sim_score.pkl"
