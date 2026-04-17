@@ -24,7 +24,7 @@ st.markdown("Enter sensor values to check if the water is safe for use.")
 @st.cache_resource
 def get_trained_model():
     # File load karna
-    data = pd.read_csv('water_quality_class.csv')
+    data = pd.read_csv('pythonProject/water_quality_class.csv')
 
     # Features (X) and Target (y)
     x = data.iloc[:, :-1]
