@@ -25,7 +25,7 @@ def get_trained_model():
     # Loading the file
     # Note: Make sure the path matches your GitHub structure (usually just 'water_quality_class.csv')
     data = pd.read_csv('pythonProject/water_quality_class.csv')
-
+    st.dataframe(data.head())
     # Features (X) and Target (y)
     x = data.iloc[:, :-1]
     y = data.iloc[:, -1]
