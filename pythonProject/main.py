@@ -11,7 +11,7 @@ st.set_page_config(page_title="Water Quality Predictor", layout="centered")
 st.markdown("""
     <style>
     .main { background-color: #f0f2f6; }
-    .stMetric { background-color: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); }
+    .stMetric { background-color: ; padding: 15px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); }
     </style>
     """, unsafe_allow_html=True)
 
