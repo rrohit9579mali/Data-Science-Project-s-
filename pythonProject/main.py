@@ -11,7 +11,7 @@ st.set_page_config(page_title="Water Quality Predictor", layout="centered")
 st.markdown("""
     <style>
     .main { background-color: #f0f2f6; }
-    .stMetric { background-color: 45; padding: 15px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); }
+    .stMetric { background-color: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1); }
     </style>
     """, unsafe_allow_html=True)
 
@@ -19,11 +19,11 @@ st.markdown("""
 st.title('💧 Water Quality Intelligence')
 st.markdown("Enter sensor values to check if the water is safe for use.")
 
-
 # --- Data Loading & Model Training ---
 @st.cache_resource
 def get_trained_model():
-    # File load karna
+    # Loading the file
+    # Note: Make sure the path matches your GitHub structure (usually just 'water_quality_class.csv')
     data = pd.read_csv('pythonProject/water_quality_class.csv')
 
     # Features (X) and Target (y)
@@ -46,7 +46,6 @@ def get_trained_model():
     # Accuracy Calculation
     acc = accuracy_score(y_test, model.predict(x_test))
     return model, acc, x.columns.tolist()
-
 
 # Load model and accuracy
 try:
@@ -72,23 +71,24 @@ try:
         prediction_value = model.predict([[val1, val2]])[0]
 
         # Mapping: 0=Poor, 1=Moderate, 2=Good
-        # Note: Agar aapka label original string hai toh ye use karein
         result_map = {0: "Poor ❌", 1: "Moderate ⚠️", 2: "Good ✅"}
 
-        # Displaying with Style
+        # Displaying result
         res_text = result_map.get(prediction_value, str(prediction_value))
 
         st.success(f"### Predicted Quality: {res_text}")
 
-        # Extra feedback based on result
+        # Extra feedback based on result in English
         if prediction_value == 2:
-            st.info("Pani peene layak hai!")
+            st.info("The water is safe for drinking!")
+        elif prediction_value == 1:
+            st.warning("The water is acceptable but filtration is recommended.")
         elif prediction_value == 0:
-            st.error("Pani peene se bimar ho sakte hain!")
+            st.error("Warning: This water is unsafe for consumption!")
 
 except Exception as e:
     st.error(
-        f"Error: Dataset load karne mein problem hai. Make sure 'water_quality_class.csv' sahi jagah par hai. Details: {e}")
+        f"Error: Problem loading the dataset. Please ensure 'water_quality_class.csv' is in the correct path. Details: {e}")
 
 # --- Footer ---
 st.sidebar.markdown("### Model Info")
